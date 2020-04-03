@@ -45,5 +45,20 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "A freelancing service-rendering mobile application built with React Native",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Charles0818/freelancing.git"
+  },
+  "keywords": [
+    "freelancing"
+  ],
+  "author": "Charles Omoregie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Charles0818/freelancing/issues"
+  },
+  "homepage": "https://github.com/Charles0818/freelancing#readme"
 }
