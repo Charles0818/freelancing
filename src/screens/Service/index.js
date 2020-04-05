@@ -1,10 +1,10 @@
-import React, { useEffect, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, ScrollView, ImageBackground, StyleSheet } from 'react-native';
 import Video from 'react-native-video';
-import { Container, Section } from './Container';
-import { ajax } from '../helpers/index';
-import styles from './styles';
-import { Spinners, Carousels, utils } from '../components/index';
+import { Container, Section } from '../Container';
+import { ajax } from '../../helpers/index';
+import { styles } from '../styles';
+import { Spinners, Carousels, utils } from '../../components/index';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const { getData } = ajax;

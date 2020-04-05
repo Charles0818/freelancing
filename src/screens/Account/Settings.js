@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableNativeFeedback, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Container, Section } from '../Container';
-import styles from '../styles';
+import { styles } from '../styles';
 const Settings = () => {
     return (
         <Container>

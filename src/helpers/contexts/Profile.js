@@ -92,7 +92,6 @@ export const removeToken = () => {
 
 export const ProfileProvider = props => {
   const [profile, dispatch] = useReducer(ProfileReducer, initialState);
-  console.log(profile);
 
   return (
     <ProfileContext.Provider value={{ profile }}>

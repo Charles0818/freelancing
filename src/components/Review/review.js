@@ -34,7 +34,7 @@ const DisplayRatings = ({reviews}) => {
         <Text style={[styles.paddingTop_md, styles.paddingBottom_sm, styles.font_md, styles.uppercase]} >
           Customer Feedback
         </Text>
-        <Button title="SEE ALL"style={[styles.padding_md, styles.border_r_5, styles.color1, styles.bg_color1_opacity, styles.font_md, styles.fontWeight_700]} />
+        <Button title="SEE ALL"style={[styles.padding_md, styles.border_r_5, styles.color1, styles.bg_color1Opacity, styles.font_md, styles.fontWeight_700]} />
       </View>
       <View style={[styles.row, styles.justifyContent_between]} >
         <View>

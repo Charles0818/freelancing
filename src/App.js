@@ -5,19 +5,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { Home, Account, Notifications, Activity } from './screens/index';
+import { Home, Account, Notifications, Activity, PaymentHistory } from './screens/index';
 import { Navigations } from './components/index';
 import { Contexts } from './helpers/index';
 import styles from './styles/main.style';
-library.add(fab, fas);
+library.add(fab, fas, far);
 const { Profile: { ProfileProvider } } = Contexts;
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home} options={{title: 'Grab'}} />
+      <HomeStack.Screen name="Home" component={Home} options={{title: 'Titiko'}} />
     </HomeStack.Navigator>
   )
 }
@@ -28,7 +29,7 @@ export default function App() {
           <Tab.Navigator
             tabBar={props => <Navigations.BottomTab {...props} />}
             tabBarOptions={{
-              activeTintColor: styles.color1,
+              activeTintColor: "#ff680a",
               style: { ...styles.flexCenter }
             }} >
             <Tab.Screen
@@ -37,6 +38,14 @@ export default function App() {
               options={{
                 tabBarLabel: 'Home',
                 icon: "home"
+              }}
+            />
+            <Tab.Screen
+              name="PaymentHistory"
+              component={PaymentHistory}
+              options={{
+                tabBarLabel: 'Payment',
+                icon: "credit-card"
               }}
             />
             <Tab.Screen
@@ -52,7 +61,8 @@ export default function App() {
               component={Notifications}
               options={{
                 tabBarLabel: 'Updates',
-                icon: "bell"
+                icon: "bell",
+                badgeCount: 3,
               }}
             />
             <Tab.Screen

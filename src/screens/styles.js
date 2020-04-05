@@ -1,2 +1,2 @@
-import styles from '../styles/main.style';
-export default styles;
+import styles, {colors} from '../styles/main.style';
+export { styles, colors };

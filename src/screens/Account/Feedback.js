@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import styles from '../styles';
+import { styles } from '../styles';
 const Feedback = () => {
     return (
         <View style={[styles.screen, styles.alignItems_center, styles.justifyContent_center]}>

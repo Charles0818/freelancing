@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, SafeAreaView } from 'react-native';
-import styles from './styles';
+import { styles } from './styles';
 export const Container = props => {
     const { style } = props;
     return (

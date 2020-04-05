@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import styles from '../styles';
+import { styles } from '../styles';
 import { Container, Section } from '../Container';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const Entry = () => {
     return (
         <Container>
-            <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={[styles.padding_md, styles.marginBottom_md, entryStyle.card]}>
+            <LinearGradient colors={['#f09001', '#f09001', '#192f6a']} style={[styles.padding_md, styles.marginBottom_md, entryStyle.card]}>
                 <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center]}>
                     <Image source={{uri: "https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg" }}
                     style={[entryStyle.avatar]}

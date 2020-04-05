@@ -1,5 +1,5 @@
 package com.freelancing;
-import com.brentvatne.react.ReactVideoPackage;
+// import com.brentvatne.react.ReactVideoPackage;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
@@ -30,13 +30,13 @@ public class MainApplication extends Application implements ReactApplication {
         }
         
         //for react-native-video package
-        @Override
-        protected List<ReactPackage> getPackages() {
-          return Arrays.asList(
-            new MainReactPackage(),
-            new ReactVideoPackage()
-          );
-        }
+        // @Override
+        // protected List<ReactPackage> getPackages() {
+        //   return Arrays.asList(
+        //     new MainReactPackage(),
+        //     new ReactVideoPackage()
+        //   );
+        // }
 
         @Override
         protected String getJSMainModuleName() {

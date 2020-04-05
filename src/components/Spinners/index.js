@@ -14,3 +14,9 @@ export const useSpinner = (bool) => {
     const Spinner = <MediumSpinner animating={animating} />
     return { animating, setAnimating, Spinner }
 }
+
+export const useImagePreload = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const ImagePreLoad = isLoading && <ActivityIndicator animating={isLoading} size={30} color="#ff680a" />
+    return { setIsLoading, ImagePreLoad }
+}

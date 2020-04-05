@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-// StyleSheet.cre
-const colors = {
+
+export const colors = {
   dark: '#000',
   dark_opacity: 'rgba(0, 0, 0, 0.248)',
   gray_color2: 'rgba(210, 210, 210, 0.75)',
@@ -10,7 +10,7 @@ const colors = {
   color1: '#ff680a',
   color1_opacity: '#ff680a49',
   color2: '#0337c5',
-  color3: '#e7e300',
+  color3: '#f09001',
   color2_opacity: 'rgba(214, 57, 9, 0.801)',
   gray_color: '#a0a0a0',
 };
@@ -21,7 +21,7 @@ const font = {
   },
 
   font_lg: {
-    fontSize: 24,
+    fontSize: 20,
   },
 
   font_md: {
@@ -38,6 +38,9 @@ const font = {
 
   fontWeight_700: {
     fontWeight: '700',
+  },
+  fontWeight_bold: {
+    fontWeight: 'bold',
   },
   uppercase: {
     textTransform: 'uppercase',
@@ -235,6 +238,9 @@ const styles = StyleSheet.create({
   color_gray: {
     color: colors.gray_color,
   },
+  color_gray2: {
+    color: colors.gray_color2,
+  },
   color_dark: {
     color: colors.dark,
   },
@@ -253,7 +259,7 @@ const styles = StyleSheet.create({
   bg_color1: {
     backgroundColor: colors.color1,
   },
-  bg_color1_opacity: {
+  bg_color1Opacity: {
     backgroundColor: colors.color1_opacity,
   },
   bg_color2: {
@@ -293,7 +299,10 @@ const styles = StyleSheet.create({
   border_r_circle: {
     borderRadius: 50,
   },
-
+  slimBorder: {
+    borderWidth: 1,
+    borderColor: colors.opacity_white,
+  },
   slimBorderBottom: {
     borderBottomWidth: 1,
     borderBottomColor: colors.opacity_white,
@@ -301,6 +310,13 @@ const styles = StyleSheet.create({
   slimBorderTop: {
     borderTopWidth: 1,
     borderTopColor: colors.opacity_white,
+  },
+  boxShadow_sm: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,  
+    elevation: 3,
   },
 });
 

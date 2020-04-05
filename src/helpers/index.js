@@ -1,3 +1,4 @@
 import * as Contexts from './contexts/index';
 import * as ajax from './ajax/index';
-export { Contexts, ajax };
+import { useFormInput, useFileInput } from './formValidation/index';
+export { Contexts, ajax, useFileInput, useFileInput, useFormInput };

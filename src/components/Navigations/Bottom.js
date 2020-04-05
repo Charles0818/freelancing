@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import styles from '../styles';
+import { styles } from '../styles';
 
 const BottomTab = ({ state, descriptors, navigation }) => {
   return (
@@ -49,7 +49,7 @@ const BottomTab = ({ state, descriptors, navigation }) => {
           >
             <View style={[styles.alignItems_center, styles.padding_sm, styles.marginRight_sm, styles.nowrap]}>
                 <View style={{...styles.marginBottom_sm}}>
-                  <FontAwesomeIcon icon={icon} style={{...styles.font_md}}/>
+                  <FontAwesomeIcon icon={icon} style={{...styles.font_md, ...styles.color_gray}}/>
                   {badgeCount > 0 && (
                     <View
                       style={{
@@ -71,7 +71,7 @@ const BottomTab = ({ state, descriptors, navigation }) => {
                     </View>
                   )}
                 </View>
-                <Text>{label}</Text>
+                <Text style={[styles.font_xsm]}>{label}</Text>
             </View>
           </TouchableOpacity>
         );
