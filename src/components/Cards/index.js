@@ -1,3 +1,4 @@
 import { ServiceCard } from './ServiceCards';
 import PromoCard from './PromoCard';
-export { ServiceCard, PromoCard };
+import LandScapeServiceCard from './LandscapeServiceCard';
+export { ServiceCard, PromoCard, LandScapeServiceCard };

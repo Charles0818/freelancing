@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // import prop from 'prop'
 const Rating = ({rating, setRating, disabled}) => {
     return (
-        <StarRating rating={rating} maxStars={5} fullStarColor="#e7e300"
-        starStyle={} selectedStar={(rating) => setRating(rating)} disabled={disabled} />
+        <StarRating rating={rating} maxStars={5} fullStarColor="#ff680a"
+         starStyle={{padding: 4}} selectedStar={(rating) => setRating(rating)} disabled={disabled} />
     )
 }
 

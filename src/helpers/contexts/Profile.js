@@ -6,8 +6,6 @@ export const ProfileContextConsumer = ProfileContext.Consumer;
 
 const { wishlist } = profile;
 const initialState = {
-  isLoggedIn: false,
-  token: null,
   profileDetails: {
     firstName: '', lastName: '',
     contactInfo: {
@@ -21,7 +19,7 @@ const initialState = {
   wishlist: [],
 }
 export const ProfileReducer = (state, action) => {
-    const { type, payload } = action;
+  const { type, payload } = action;
   switch (type) {
     case 'LOGIN': {
         const { token, profileDetails, wishlist } = action;
@@ -121,12 +119,6 @@ export const useProfileDispatch = () => {
   }
   return context;
 };
-
-
-export const IsAuth = () => {
- const { profile: { isLoggedIn, token } } = useProfileContext();
- return isLoggedIn  && token
-}
 
 export const CheckIfWishListed = (productId) => {
   const { profile: { wishlist } } = useProfileContext();

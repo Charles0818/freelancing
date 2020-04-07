@@ -1,15 +1,29 @@
 import React from 'react';
 import { View, SafeAreaView } from 'react-native';
+import PropTypes from 'prop-types'
 import { styles } from './styles';
 export const Container = props => {
-    const { style } = props;
     return (
-        <SafeAreaView style={[styles.screen, style ? {...style}: '']}>{props.children}</SafeAreaView>
+        <SafeAreaView style={[styles.screen,]}>{props.children}</SafeAreaView>
     )
 }
 
-export const Section = props => {
+export const Section = ({children, style}) => {
     return (
-        <View style={{...styles.paddingHorizontal_sm, ...styles.marginBottom_md}}>{props.children}</View>
+        <View style={[styles.paddingHorizontal_sm, styles.marginBottom_md, style ? style : null]}>{children}</View>
     )
 };
+
+Container.propTypes = {
+    style: PropTypes.array
+}
+Container.propTypesDefault = {
+    style: [],
+}
+
+Section.propTypes = {
+    style: PropTypes.array
+}
+Section.propTypesDefault = {
+    style: [],
+}

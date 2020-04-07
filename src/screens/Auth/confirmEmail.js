@@ -7,7 +7,9 @@ import { styles, colors } from '../styles';
 
 const ConfirmEmail = () => {
     return (
-        <Container></Container>
+        <Container>
+            
+        </Container>
     )
 }
 

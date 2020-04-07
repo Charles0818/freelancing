@@ -6,7 +6,7 @@ import { Form } from '../../components';
 import { styles, colors } from '../styles';
 
 const { FormInput } = Form;
-const Login = () => {
+const SignUp = () => {
   const { input: email, handleUserInput: setEmail, error: emailErr, isValid: emailIsValid,  } = useFormInput();
   const { input: password, handleUserInput: setPassword, error: passwordErr, isValid: passIsValid,  } = useFormInput();
   const { input: password2, handleUserInput: setPassword2, error: passwordErr2, isValid: passIsValid2,  } = useFormInput();
@@ -43,4 +43,4 @@ const formStyles = StyleSheet.create({
   },
 })
 
-export default Login;
+export default SignUp;

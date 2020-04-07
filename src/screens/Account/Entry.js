@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const Entry = () => {
     return (
         <Container>
-            <LinearGradient colors={['#f09001', '#f09001', '#192f6a']} style={[styles.padding_md, styles.marginBottom_md, entryStyle.card]}>
+            <LinearGradient colors={['#ff8109', '#ff8001', '#ff680d']} style={[styles.padding_md, styles.marginBottom_md, entryStyle.card]}>
                 <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center]}>
                     <Image source={{uri: "https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg" }}
                     style={[entryStyle.avatar]}

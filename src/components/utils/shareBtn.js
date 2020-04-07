@@ -1,7 +1,7 @@
 import React from 'react';
 import { Share, TouchableNativeFeedback } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-
+import { styles } from '../styles';
 const ShareButton = () => {
   const onShare = async () => {
     try {

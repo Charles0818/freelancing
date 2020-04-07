@@ -23,6 +23,7 @@ const ComponentCarousel = ({ slides, autoSlide, duration, bullet, dimensions: { 
   const { updateIndex, index: selectedIndex, setIndex } = useComponentCarousel();
   const scrollRef = useRef();
   const slideWidth = useRef();
+  console.log(slides.length)
   const getSlideWidth = (event) => {
     const { width } = event.nativeEvent.layout;
     slideWidth.current = Math.round(width);
@@ -41,7 +42,7 @@ const ComponentCarousel = ({ slides, autoSlide, duration, bullet, dimensions: { 
     return () => clearInterval(interval);
   }
   }, [selectedIndex, setIndex, slides.length, width]);
-
+  console.log(width, height)
   return (
     <View style={{ width, height, ...styles.bg_white, ...styles.marginBottom_md }}>
       <ScrollView

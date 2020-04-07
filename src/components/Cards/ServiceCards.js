@@ -3,19 +3,18 @@ import { View, Text, ImageBackground, Dimensions, ActivityIndicator, TouchableOp
 import { helpers } from '../helpers';
 import { styles } from '../styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-
+import { ScaleToSize } from '../Animations/index';
 const { Contexts: { Profile: { CheckIfWishListed, useProfileDispatch }, actions } } = helpers;
 const { profile: { wishlist: { toggle } } } = actions;
-export const ServiceCard = ({service}) => {
+export const ServiceCard = ({service, navigation}) => {
   const { id, name, price, media } = service;
   const thumbnail = media.filter(el => el.type === 'image')[0].uri;
-  // const service = {
-  //   id: 1
-  // }
   const isWishListed = CheckIfWishListed(id);
   const { dispatch } = useProfileDispatch();
   return (
-    <View style={[cardStyle.container, styles.boxShadow_sm, styles.marginRight_sm, styles.marginBottom_sm]}>
+    <View onPress={() => navigation.navigate("Service", { service })}>
+    <ScaleToSize
+      style={[cardStyle.container, styles.boxShadow_sm, styles.marginRight_sm, styles.marginBottom_sm]}>
       <ImageBackground source={{uri: thumbnail}} resizeMode="cover"
         style={[cardStyle.thumbnail]} loadingIndicatorSource={<ActivityIndicator animating={true} size={30} color="#ff680a" />}>
         <TouchableOpacity activeOpacity={0.8}
@@ -42,6 +41,7 @@ export const ServiceCard = ({service}) => {
           <Text numberOfLines={1} style={[styles.font_sm, styles.fontWeight_700, styles.marginBottom_sm]}>N {price}</Text>
         </View>
       </View>
+    </ScaleToSize>
     </View>
   )
 }

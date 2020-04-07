@@ -41,7 +41,8 @@ const sendReviewData = {
 export const services = [
   {
     id: 1,
-    name: 'Carex Antibacterial Liquid handler',
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
     category: 'Fashion',
     author: {
       firstName: 'Charles',
@@ -54,15 +55,16 @@ export const services = [
         uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035953/igbo-abacha-ncha_oeiamp.jpg',
       },
       {
-          type: 'video',
+          type: 'image',
           uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
       }
     ],
     price: 450.00
   },
   {
-    id: 1,
-    name: 'Carex Antibacterial Liquid handler',
+    id: 2,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
     category: 'Fashion',
     author: {
       firstName: 'Charles',
@@ -75,15 +77,16 @@ export const services = [
         uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035954/nigerian-assorted-beef-pepper-soup_bud9ir.jpg',
       },
       {
-          type: 'video',
+          type: 'image',
           uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
       }
     ],
     price: 450.00
   },
   {
-    id: 1,
-    name: 'Carex Antibacterial Liquid handler',
+    id: 3,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
     category: 'Fashion',
     author: {
       firstName: 'Charles',
@@ -96,15 +99,16 @@ export const services = [
         uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035955/peppered-snail_yny0vo.jpg',
       },
       {
-          type: 'video',
+          type: 'image',
           uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
       }
     ],
     price: 450.00
   },
   {
-    id: 1,
-    name: 'Carex Antibacterial Liquid handler',
+    id: 4,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
     category: 'Fashion',
     author: {
       firstName: 'Charles',
@@ -117,15 +121,16 @@ export const services = [
         uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035955/nigerian-abacha-african-salad-5-ingredients_dtqak1.jpg',
       },
       {
-          type: 'video',
+          type: 'image',
           uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
       }
     ],
     price: 450.00
   },
   {
-    id: 1,
-    name: 'Carex Antibacterial Liquid handler',
+    id: 5,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
     category: 'Fashion',
     author: {
       firstName: 'Charles',
@@ -138,7 +143,51 @@ export const services = [
         uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035958/ugba_ehgdme.jpg',
       },
       {
-          type: 'video',
+          type: 'image',
+          uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
+      }
+    ],
+    price: 450.00
+  },
+  {
+    id: 6,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
+    category: 'Fashion',
+    author: {
+      firstName: 'Charles',
+      lastName: 'Omoregie',
+      userId: 2,
+    },
+    media: [
+      {
+        type: 'image',
+        uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035958/ugba_ehgdme.jpg',
+      },
+      {
+          type: 'image',
+          uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
+      }
+    ],
+    price: 450.00
+  },
+  {
+    id: 7,
+    name: 'Carex fruit',
+    description: 'Get yourself an ever tasting carex fruit',
+    category: 'Fashion',
+    author: {
+      firstName: 'Charles',
+      lastName: 'Omoregie',
+      userId: 2,
+    },
+    media: [
+      {
+        type: 'image',
+        uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035958/ugba_ehgdme.jpg',
+      },
+      {
+          type: 'image',
           uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
       }
     ],
@@ -183,7 +232,7 @@ export const serviceCategories = [
     name: 'Engineering'
   },
   {
-    image: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg',
+    image: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035958/ugba_ehgdme.jpg',
     name: 'Food'
   },
   {
@@ -213,4 +262,29 @@ export const promotionalServices = [
     serviceId: 1,
     image: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1586035955/peppered-snail_yny0vo.jpg'
   },
+];
+
+export const payments = [
+  {
+    status: 'success',
+    amount: 3500,
+    date: '10-04-2020', 
+    orderId: '45967085848343',
+    servicePaidFor: {
+      item: services[0],
+      qty: 4
+    },
+  },
+  {
+    status: 'failure',
+    amount: 3500,
+    date: '04-04-2020', 
+    orderId: '45967785848343',
+    servicePaidFor: [
+      {
+        item: services[1],
+        qty: 6
+      }
+    ],
+  }
 ]

@@ -1,3 +1,3 @@
 import useRating from './rating';
-import Review from './review';
-export { Review, useRating };
+import DisplayReviews from './review';
+export { DisplayReviews, useRating };

@@ -4,8 +4,9 @@ export const colors = {
   dark: '#000',
   dark_opacity: 'rgba(0, 0, 0, 0.248)',
   gray_color2: 'rgba(210, 210, 210, 0.75)',
-  opacity_white: '#d8cfcf',
+  opacity_white: '#d8cfcf75',
   white: '#fff',
+  white2: '#faf8f5',
   danger: '#df0202',
   color1: '#ff680a',
   color1_opacity: '#ff680a49',
@@ -185,7 +186,13 @@ const padding = {
   },
   paddingHorizontal_md: {
     paddingHorizontal: 30
-  }
+  },
+  paddingVertical_sm: {
+    paddingVertical: 10
+  },
+  paddingVertical_md: {
+    paddingVertical: 30
+  },
 };
 
 const flex = {
@@ -220,8 +227,8 @@ const flex = {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingBottom: 20,
-    backgroundColor: colors.white,
+    // paddingBottom: 20,
+    backgroundColor: colors.white2,
   },
   color_white: {
     color: colors.white,
@@ -249,6 +256,9 @@ const styles = StyleSheet.create({
   },
   bg_white: {
     backgroundColor: colors.white,
+  },
+  bg_white2: {
+    backgroundColor: colors.white2,
   },
   bg_whiteOpacity: {
     backgroundColor: colors.opacity_white,

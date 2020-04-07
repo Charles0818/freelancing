@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const { ServiceCard, PromoCard } = Cards;
 const { useImagePreload } = Spinners;
 const { ComponentCarousel } = Carousels;
-const Home = () => {
+const Home = ({navigation}) => {
   const [search, updateSearch] = useState('');
   console.log(search);
   return (
@@ -33,15 +33,15 @@ const Home = () => {
           </View>
         </View>
       </Section>
-      <View style={[styles.boxShadow_sm, styles.marginBottom_md]}>
+      {/* <View style={[styles.boxShadow_sm, styles.marginBottom_md]}>
         <ComponentCarousel duration={10000} dimensions={{width: '100%', height: 'auto'}}
           slides={promotionalServices.map((service, key) => <PromoCard key={key} service={service} />)}
         />
-      </View>
+      </View> */}
       <Section>
         <View style={[styles.boxShadow_sm]}>
           <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700, styles.marginBottom_md]}>Services</Text>
-          <View style={[styles.row, styles.justifyContent_between, styles.wrap, styles.slimBorderBottom]}>
+          <View style={[styles.row, styles.wrap, styles.slimBorderBottom]}>
             {serviceCategories.map((service, key) => <Service key={key} service={service} />)}
             <View style={[styles.marginRight_md, styles.alignItems_center, styles.marginBottom_md]}>
               <View style={[homeStyle.serviceImage, styles.marginBottom_sm, styles.bg_whiteOpacity, styles.alignItems_center, styles.justifyContent_center]}>
@@ -54,21 +54,22 @@ const Home = () => {
           </View>
         </View>
       </Section>
-      {Proposed.map((categories, key) => <RecommendedServices key={key} categories={categories}/>)}
+      {Proposed.map((categories, key) => <RecommendedServices key={key} categories={categories} navigation={navigation} />)}
       </ScrollView>
     </Container>
   );
 }
 
-const RecommendedServices = ({categories}) => {
+const RecommendedServices = ({categories, navigation}) => {
   const { category, services } = categories;
-  const Services = services.map((service, key) => <ServiceCard key={key} service={service} />);
+  const Services = services.map((service, key) => <ServiceCard key={key} service={service} navigation={navigation} />);
   return (
-    <Section>
+    <Section style={[styles.bg_white, styles.paddingVertical_md]}>
       <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.marginBottom_md]} >
         <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700]}>{category}</Text>
-        <TouchableOpacity activeOpacity={0.8} title="More"  style={[styles.padding_md, styles.bg_color1Opacity, styles.border_r_5]}>
-        <Text style={[styles.color1, styles.fontWeight_700]}>More</Text>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services", { category })}
+          style={[styles.padding_md, styles.bg_color1Opacity, styles.border_r_5]}>
+          <Text style={[styles.color1, styles.fontWeight_700]}>More</Text>
         </TouchableOpacity>
       </View>
       <ComponentCarousel slides={Services} bullet={false} autoSlide={false} dimensions={{width: '100%', height: 'auto'}} />
@@ -80,7 +81,7 @@ const Service = ({service}) => {
   const { name, image } = service;
   // const { setIsLoading, ImagePreLoad } = useImagePreload();
   return (
-    <View style={[styles.marginRight_md, homeStyle.service, styles.alignItems_center, styles.marginBottom_md]}>
+    <View style={[homeStyle.service, styles.alignItems_center, styles.marginBottom_md]}>
       <View style={[]}>
         <Image source={{uri: image}}
         style={[homeStyle.serviceImage, styles.marginBottom_sm]}/>
@@ -107,8 +108,9 @@ const homeStyle = StyleSheet.create({
   },
 
   service: {
-    width: 70,
+    width: 80,
     maxHeight: 80,
+    marginRight: 10,
   },
   serviceImage: {
     width: 50,

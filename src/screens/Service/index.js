@@ -1,93 +1,180 @@
-import React, { useEffect } from 'react';
-import { View, ScrollView, ImageBackground, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Video from 'react-native-video';
 import { Container, Section } from '../Container';
-import { ajax } from '../../helpers/index';
+import { ajax, Contexts } from '../../helpers/index';
 import { styles } from '../styles';
-import { Spinners, Carousels, utils } from '../../components/index';
+import { Spinners, Carousels, utils, Cards, Review, useRating, DisplayReviews } from '../../components/index';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-const { getData } = ajax;
+import { services, reviews } from '../../data';
+const { getData, apiKey } = ajax;
 const { useSpinner  } = Spinners;
 const { ComponentCarousel } = Carousels;
 const { ShareButton } = utils;
+const { ServiceCard } = Cards;
+const { Profile: { CheckIfWishListed, useProfileDispatch }, actions } = Contexts;
 
-const media = [
-  {
-      type: 'image',
-      uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg',
-  },
-  {
-      type: 'video',
-      uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
-  }
-]
-const Service = ({navigation, route: { params }}) => {
-  const [service, setService] = useState({});
+// const media = [
+//   {
+//       type: 'image',
+//       uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg',
+//   },
+//   {
+//       type: 'video',
+//       uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
+//   }
+// ]
+const Service = ({navigation, route: { params: { service } }}) => {
+  const { id, name, price, media, subCategory, description, rating } = service;
+  // const [reviews, setReviews] = useState([]);
+  const [similarServices, setSimilarServices] = useState([]);
   const { animating, Spinner, setAnimating } = useSpinner(true);
-  const slides = media.map(el => {
-      const { uri, type } = el
-      switch(type) {
-          case 'image': {
-              return <ImageBackground source={{uri}} style={{width: '100%', height: 'auto'}} />
-          }
-          case 'video': {
-              return <Video />
-          }
-          default: {
-              throw new Error('Invalid media type!')
-          }
+  const isWishListed = CheckIfWishListed(id);
+  const { dispatch } = useProfileDispatch();
+  const Slides = media.map((el, key) => {
+    const { uri, type } = el;
+    console.log(uri)
+    switch(type) {
+      case 'image': {
+        return <Image source={{uri}} style={{width: '100%', height: '100%'}} />;
       }
-  })
-  useEffect(() => {
-      let isSubscribed = true;
-      const getService = async () => {
-          try {
-              const response = await getData(`${apiKey}/id=${params.id}`);
-              setService(response.service);
-              setAnimating(false)
-          } catch (err) {
-              console.log(err);
-          }
+      case 'video': {
+        return <Video source={{uri}} />
       }
-      if(isSubscribed) getService();
-      return () => isSubscribed = false
-  }, []);
-  if(animating) return Spinner;
+      default: {
+        throw new Error('Invalid media type!')
+      }
+    }
+  });
+  console.log(Slides)
+  // useEffect(() => {
+  //     let isSubscribed = true;
+  //     const fetchData = async () => {
+  //       try {
+  //         const getReviews = await getData(`${apiKey}/id=${id}`);
+  //         const relatedServices = await getData(`${apiKey}/id=${id}`)
+  //         setReviews(getReviews.reviews);
+  //         setSimilarServices(relatedServices);
+  //         setAnimating(false)
+  //       } catch (err) {
+  //         console.log(err);
+  //         setAnimating(false);
+  //       }
+  //     }
+  //     if(isSubscribed) fetchData();
+  //     return () => isSubscribed = false
+  // }, []);
+  // if(animating) return Spinner;
 
-  const {  } = service;
   return (
     <Container>
       <ScrollView alwaysBounceVertical={true}>
-        <View style={[styles.position_relative]}>
+        <View style={[styles.position_relative, serviceStyle.thumbnailWrapper]}>
           <View style={[styles.position_absolute, serviceStyle.thumbnail]} >
-            <ComponentCarousel slides={slides} dimensions={{width: '100%', height: 'auto'}} />
+            <Image source={{uri: media[0].uri}} style={{width: '100%', height: '100%'}} />
           </View>
-          <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.padding_md]}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#a0a0a', false)}
-              style={[styles.padding_sm, styles.alignItems_center, styles.justifyContent_center]}
+          <View style={[styles.row, {top: 20}, styles.justifyContent_between, styles.alignItems_center, styles.padding_md]}>
+            <TouchableOpacity activeOpacity={0.8}
+              style={[styles.padding_sm, serviceStyle.roundBtn, styles.alignItems_center, styles.justifyContent_center]}
               onPress={() => navigation.goBack()}>
               <FontAwesomeIcon icon="backward" style={{...styles.color_white}} />
-            </TouchableNativeFeedback>
+            </TouchableOpacity>
             <View style={[styles.row, styles.alignItems_center]}>
-              <ShareButton />
+              <View style={[serviceStyle.roundBtn]}>
+                <ShareButton />
+              </View>
+              <TouchableOpacity activeOpacity={0.8}
+                style={[serviceStyle.roundBtn, styles.position_absolute, styles.bg_darkOpacity]}
+                onPress={() => dispatch({type: toggle, payload: { wish: service } })}>
+                {isWishListed ? (
+                  <FontAwesomeIcon icon="heart"
+                  style={{...styles.font_lg, ...styles.color_danger}}
+                /> 
+                ) : (
+                  <FontAwesomeIcon icon={["far", "heart"]}
+                  style={{...styles.font_lg, ...styles.color_white}}
+                /> 
+                )}
+              </TouchableOpacity>
             </View>
           </View>
         </View>
+        <Section style={[styles.bg_white, styles.marginBottom_md, styles.paddingVertical_md, styles.slimBorderBottom]}>
+          <Text numberOfLines={2} style={[styles.font_md, styles.fontWeight_bold]}>{name}</Text>
+          <Text numberOfLines={1} style={[styles.color_gray, styles.marginBottom_sm]}>{subCategory}</Text>
+          <View style={[styles.row, styles.alignItems_center, styles.marginRight_sm]}>
+            <FontAwesomeIcon icon="star" style={{...styles.color3, ...styles.font_sm, ...styles.marginRight_xsm}} />
+            <Text style={[styles.fontWeight_700, styles.font_xsm]}>{rating}</Text>
+          </View>
+          <View style={[styles.row, styles.justifyContent_between, styles.marginBottom_sm]}>
+            <View style={[styles.row, styles.alignItems_center]}>
+              <View style={[styles.row, styles.alignItems_center, styles.marginRight_sm]}>
+                <FontAwesomeIcon icon="clock" style={{...styles.color3, ...styles.font_sm, ...styles.marginRight_xsm}} />
+                <Text style={[styles.fontWeight_700, styles.font_xsm]}>{14} mins</Text>
+              </View>
+              <View style={[styles.row, styles.alignItems_center, styles.marginRight_sm]}>
+                <FontAwesomeIcon icon="map-marked" style={{...styles.color3, ...styles.font_sm, ...styles.marginRight_xsm}} />
+                <Text style={[styles.fontWeight_700, styles.font_xsm]}>{4.1} km</Text>
+              </View>
+            </View>
+            <View style={[styles.row, styles.alignItems_center]}>
+              <Text style={[styles.color_gray, styles.font_sm, styles.marginRight_sm]}>Price:</Text>
+              <Text style={[styles.font_md, styles.fontWeight_700]}>N {price}</Text>
+            </View>
+          </View>
+        </Section>
+        <View style={[styles.bg_white]}>
+          <Section>
+            <Text numberOfLines={1} style={[styles.font_md, styles.fontWeight_bold, styles.paddingVertical_sm, styles.slimBorderBottom, styles.marginBottom_sm]}>Description</Text>
+            <Text numberOfLines={10} style={[]}>{description}</Text>
+          </Section>
+        </View>
         <Section>
-          
+          <DisplayReviews reviews={reviews} />
+        </Section>
+        <Section>
+          <SimilarService services={services} category={subCategory} navigation={navigation} />
         </Section>
       </ScrollView>
     </Container>
   )
 }
 
+const SimilarService = ({services, category, navigation}) => {
+  const Services = services.map((service, key) => <ServiceCard key={key} service={service} navigation={navigation} />);
+  return (
+    <View style={{paddingVertical: 10}}>
+      <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.marginBottom_md]} >
+        <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700]}>You may also like these</Text>
+        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services", { category })}
+          style={[styles.padding_md, styles.bg_color1Opacity, styles.border_r_5]}>
+          <Text style={[styles.color1, styles.fontWeight_700]}>See All</Text>
+        </TouchableOpacity>
+      </View>
+      <ComponentCarousel slides={Services} bullet={false} autoSlide={false} dimensions={{width: '100%', height: 'auto'}} />
+    </View>
+  )
+}
 
 const serviceStyle = StyleSheet.create({
+  thumbnailWrapper: {
+    width: '100%',
+    height: 250,
+  },
   thumbnail: {
     top: 0,
     left: 0,
-  }
+    width: '100%',
+    height: '100%',
+  },
+  roundBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
+    padding: 5,
+    ...styles.flexCenter,
+  },
 })
 
 export default Service;
