@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text, ScrollView, TextInput, TouchableNativeFeedback, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Container, Section } from './Container';
@@ -11,6 +11,10 @@ const { useImagePreload } = Spinners;
 const { ComponentCarousel } = Carousels;
 const Home = ({navigation}) => {
   const [search, updateSearch] = useState('');
+  const [recommendedServices, setRecommendedServices] = useState([]);
+  useEffect(() => {
+    setRecommendedServices(Proposed)
+  },[])
   console.log(search);
   return (
     <Container>
@@ -54,7 +58,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
       </Section>
-      {Proposed.map((categories, key) => <RecommendedServices key={key} categories={categories} navigation={navigation} />)}
+      {recommendedServices.map((categories, key) => <RecommendedServices key={key} categories={categories} navigation={navigation} />)}
       </ScrollView>
     </Container>
   );
@@ -62,12 +66,12 @@ const Home = ({navigation}) => {
 
 const RecommendedServices = ({categories, navigation}) => {
   const { category, services } = categories;
-  const Services = services.map((service, key) => <ServiceCard key={key} service={service} navigation={navigation} />);
+  const Services = services.map((service, key) => <ServiceCard key={service.id} service={service} navigation={navigation} />);
   return (
     <Section style={[styles.bg_white, styles.paddingVertical_md]}>
       <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.marginBottom_md]} >
         <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700]}>{category}</Text>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services", { category })}
+        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services")}
           style={[styles.padding_md, styles.bg_color1Opacity, styles.border_r_5]}>
           <Text style={[styles.color1, styles.fontWeight_700]}>More</Text>
         </TouchableOpacity>

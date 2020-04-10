@@ -1,19 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { helpers } from '../helpers';
 import { styles } from '../styles';
 import { FadeIn } from '../Animations/index';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
-const { Contexts: { Profile: { CheckIfWishListed, useProfileDispatch }, actions } } = helpers;
-const { profile: { wishlist: { toggle } } } = actions;
+const { serviceHelpers: { useToggleWishList }, Store: { actions: { wishlistActions } } } = helpers;
+const { addToWishlist, removeFromWishlist } = wishlistActions;
 
-const LandScapeServiceCard = ({service}) => {
-  console.log(service);
+
+const LandScapeServiceCard = (props) => {
+  const { service, navigation, removeFromWishlist, addToWishlist } = props;
+  const { toggleWishlist, isWishlisted } = useToggleWishList({ removeFromWishlist, addToWishlist, service })
   const { id, name, price, media, subCategory, rating } = service;
   const thumbnail = media.filter(el => el.type === 'image')[0].uri;
-  const isWishListed = CheckIfWishListed(id);
-  const { dispatch } = useProfileDispatch();
   return (
     <FadeIn style={[styles.row, styles.marginBottom_md, styles.boxShadow_sm, cardStyle.container]} >
       <ImageBackground source={{uri: thumbnail}}
@@ -61,4 +63,7 @@ const cardStyle = StyleSheet.create({
   },
 });
 
-export default LandScapeServiceCard;
+const mapDispatchToProps = dispatch => 
+  bindActionCreators({ removeFromWishlist, addToWishlist }, dispatch);
+
+  export default connect(null, mapDispatchToProps)(LandScapeServiceCard);

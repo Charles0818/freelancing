@@ -1,9 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { styles } from '../styles';
+import { styles, colors } from '../styles';
 
 const BottomTab = ({ state, descriptors, navigation }) => {
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('tabLongPress', e => {
+      // Do something
+    });
+  
+    return unsubscribe;
+  }, [navigation]);
   return (
     <View style={{ flexDirection: 'row', ...styles.slimBorderTop, ...styles.padding_sm }}>
       {state.routes.map((route, index) => {
@@ -49,7 +56,7 @@ const BottomTab = ({ state, descriptors, navigation }) => {
           >
             <View style={[styles.alignItems_center, styles.padding_sm, styles.marginRight_sm, styles.nowrap]}>
                 <View style={{...styles.marginBottom_sm}}>
-                  <FontAwesomeIcon icon={icon} style={{...styles.font_md, ...styles.color_gray}}/>
+                  <FontAwesomeIcon icon={icon} style={{...styles.font_md, color: isFocused ? colors.color1 : colors.color_dark}}/>
                   {badgeCount > 0 && (
                     <View
                       style={{
@@ -71,7 +78,7 @@ const BottomTab = ({ state, descriptors, navigation }) => {
                     </View>
                   )}
                 </View>
-                <Text style={[styles.font_xsm]}>{label}</Text>
+                <Text style={[styles.font_xsm, isFocused ? styles.color1 : styles.color_dark ]}>{label}</Text>
             </View>
           </TouchableOpacity>
         );

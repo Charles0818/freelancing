@@ -47,7 +47,7 @@ const ComponentCarousel = ({ slides, autoSlide, duration, bullet, dimensions: { 
     <View style={{ width, height, ...styles.bg_white, ...styles.marginBottom_md }}>
       <ScrollView
         horizontal
-        onMomentumScrollEnd={updateIndex}
+        // onMomentumScrollEnd={updateIndex}
         showsHorizontalScrollIndicator={false}
         ref={scrollRef}
         style={CarouselStyles.slider}>

@@ -1,40 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList, TouchableHighlight, TextInput } from 'react-native';
 import { Container, Section } from '../Container';
 import { services } from '../../data';
-import { Cards } from '../../components';
+import { Cards, Spinners } from '../../components';
 import { styles } from '../styles';
 import { useFormInput } from '../../helpers/index';
 import { useNavigation } from '@react-navigation/core';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { LandScapeServiceCard } = Cards;
-
+const { useSpinner } = Spinners;
 const Services = ({ navigation }) => {
   const { input, handleUserInput: setSearch, isValid } = useFormInput();
-  // const navigation = useNavigation()
+  const { animating, setAnimating, Spinner } = useSpinner(true);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TextInput style={[ServiceStyle.searchField, styles.slimBorder, styles.font_md, styles.fonWeight_bold]}
           value={input} onChangeText={setSearch} placeholder="search food"
         />
-      )
+      ),
     })
-  })
+  });
+
+  useEffect(() => {
+    let isSubscribed = true;
+    const getServices = async () => {
+      try {
+        const timeout = await setTimeout(() => {
+          setAnimating(false);
+          console.log('it is finished')
+        }, 1500);
+        // return clearTimeout(timeout);
+      } catch (err) {
+        console.log(err);
+        setAnimating(false)
+      }
+    }
+    if(isSubscribed) getServices();
+    return () => isSubscribed = false;
+  },[]);
+  if(animating) return Spinner;
   return (
     <Container>
       <Section>
         <View style={[styles.marginTop_md]}>
         <FlatList data={services}
           renderItem={({ item, index, separators }) => (
-            <TouchableHighlight
+            <TouchableOpacity
               style={[styles.slimBorderTop, styles.paddingTop_sm]}
               key={index}
-              onShowUnderlay={separators.highlight}
-              onHideUnderlay={separators.unhighlight}
+              activeOpacity={0.6}
+              underlayColor={"#a0a0a0"}
               onPress={() => navigation.navigate("Service", { service: item })}>
               <LandScapeServiceCard service={item} key={index} />
-            </TouchableHighlight>
+            </TouchableOpacity>
 
           )}
           keyExtractor={(item, index) => index.toString()}

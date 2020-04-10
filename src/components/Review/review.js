@@ -9,15 +9,16 @@ const Review = ({review}) => {
   console.log(rating);
   return (
     <View style={[styles.marginBottom_sm, styles.boxShadow_sm, styles.border_r_5, styles.bg_white, styles.padding_md]}>
-      <View style={[styles.marginBottom_sm]} >
+      <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.marginBottom_sm]} >
         {RateWithStar}
+        <Text style={[styles.color_gray, styles.font_sm, styles.marginRight_sm]} >{date}</Text>
       </View>
       <Text style={[styles.font_sm, styles.fontWeight_700, styles.marginBottom_sm]} >
         {ratingMeaning(rating)}
       </Text>
       <Text style={[styles.font_sm, styles.marginBottom_sm]} >{comment}</Text>
       <View style={[styles.row, styles.alignItems_center]} >
-        <Text style={[styles.color_gray, styles.font_sm, styles.marginRight_sm]} >{date}</Text>
+       
         <Text style={[styles.color_gray, styles.font_sm]} >by {`${firstName} ${lastName}`}</Text>
       </View>
     </View>

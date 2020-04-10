@@ -17,6 +17,35 @@ const CenteredModal = ({modalVisible, children: Children}) => {
   )
 }
 
+const Confirmation = () => {
+  return (
+    <View style={[modalStyle.container]}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+        Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View className="d-flex column">
+            <Text className="font-md font-weight-600 margin-bottom-md">{heading}</Text>
+            <Text className="font-sm color-dark padding-bottom-md">{Children}</Text>
+            <View className="d-flex justify-content--end" style={{width: '100%'}}>
+                <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple("#a0a0a0", true)} className="padding-md margin-right-sm cursor-pointer font-sm font-weight-600 border-r-5 danger-bg color-white" onClick={fireAction}>
+                Yes
+                </TouchableNativeFeedback>
+                <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple("#a0a0a0", true)} className="padding-md font-sm font-weight-600 cursor-pointer border-r-5 bg-color2 color-white" onClick={closeModal}>
+                    No
+                </TouchableNativeFeedback>
+            </View>
+        </View>
+      </Modal>
+    </View>
+  )
+}
+}
+
 const DrawUpModal = ({visible, children: Children}) => {
   return (
     <Modal

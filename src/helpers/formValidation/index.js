@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-export const useFormInput = (value) => {
+export const useFormInput = (name, value) => {
   const [input, setInput] = useState(value ? value : '');
   const [error, setError] = useState('');
-  const [isValid, setIsValid] = useState(value ? true : false)
+  const [isValid, setIsValid] = useState(value ? true : false);
+  console.log(isValid, error, input)
   const handleUserInput = (value) => {
-    //   const { target: { name, value } } = event;
       setInput(value);
       setIsValid(FormValidation(name, value, setError))
   };
@@ -24,7 +24,7 @@ return { handleFile, file, fileUrl }
 }
 
 const validateWithRegex = (value, regex) => {
-  const isValid = regex.test(value);
+  const isValid = regex.test(value) && /^[A-Za-z0-9 _]/.test(value)
   return isValid
 }
 
@@ -38,17 +38,18 @@ const validateLength = (value, min, max) => {
 const FormValidation = (name, value, setError) => {
   const { validateWithLuhn, validateCardExpiryDate } = creditCardValidation();
   const input_types = {
-    email: /^([a-z\d-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
-    password: /^[#\w@_-]{8,20}$/,
-    phone:/^\d{11}$/,
+    email: /^([a-zA-Z\d-]+)@([a-zA-Z\d-]+)\.([a-zA-Z]{2,8})(\.[a-zA-Z]{2,8})?$/,
+    password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d][\w~@#$%^&*+=`|{}:;!.?\"()\[\]-]{7,}$/,
+    phone:/^[0-9\.\-\/\(\)]+$/,
     date:/^(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/i,
     CC_date: /^(0?[1-9]|1[0-2])[/](\d{2})$/,
     CC_holderName: /^([a-zA-Z]{3,}) ([a-zA-Z]{3,})$/,
-    text: /^[A-Za-z0-9 _]/
+    text: /^[a-zA-Z]+$/,
+    alphanumeric: /^[A-Za-z0-9 _]/
   }
   const errorMessage = {
     emailErr: "Email should contain '@' and at least one '.'",
-    passwordErr: 'Password must be at least 6 characters, including UPPER/lowercase letters',
+    passwordErr: 'Password must be at least 8 characters, containing alphanumerics',
     name: "Name must contain only alphabelts",
     usernameErr: "username must contain only alphabelts",
     subject: 'Subject should contain only alphanumeric characters',
@@ -61,7 +62,7 @@ const FormValidation = (name, value, setError) => {
   Object.freeze([input_types, errorMessage])
 
   const { emailErr, subject, dateErr, passwordErr, phoneErr, usernameErr, CC_digitsErr, CC_dateErr } = errorMessage;
-  const { email, text, date, password, phone, CC_holderName, CC_date } = input_types;
+  const { email, text, date, password, phone, alphanumeric } = input_types;
   let isValid = null;
 
   switch(name) {
@@ -82,7 +83,7 @@ const FormValidation = (name, value, setError) => {
       !isValid ? setError(subject) : setError('')
       return isValid;
     case 'password':
-      isValid = validateWithRegex(value, password) && validateLength(value, 6)
+      isValid = validateWithRegex(value, password) && validateLength(value, 8)
       !isValid ? setError(passwordErr) : setError('')
       return isValid;
     case 'phone':
@@ -102,7 +103,7 @@ const FormValidation = (name, value, setError) => {
       !isValid ? setError(CC_dateErr) : setError('')
       return isValid
     default:
-      isValid = validateWithRegex(value, text) && validateLength(value)
+      isValid = validateWithRegex(value, alphanumeric) && validateLength(value)
       !isValid ? setError(`${name} is invalid `) : setError('')
       return isValid;
   }

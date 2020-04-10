@@ -6,6 +6,7 @@ import { ajax, Contexts } from '../../helpers/index';
 import { styles } from '../styles';
 import { Spinners, Carousels, utils, Cards, Review, useRating, DisplayReviews } from '../../components/index';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+import { NetworkError } from '../ErrorScreens'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { services, reviews } from '../../data';
 const { getData, apiKey } = ajax;
@@ -48,25 +49,24 @@ const Service = ({navigation, route: { params: { service } }}) => {
     }
   });
   console.log(Slides)
-  // useEffect(() => {
-  //     let isSubscribed = true;
-  //     const fetchData = async () => {
-  //       try {
-  //         const getReviews = await getData(`${apiKey}/id=${id}`);
-  //         const relatedServices = await getData(`${apiKey}/id=${id}`)
-  //         setReviews(getReviews.reviews);
-  //         setSimilarServices(relatedServices);
-  //         setAnimating(false)
-  //       } catch (err) {
-  //         console.log(err);
-  //         setAnimating(false);
-  //       }
-  //     }
-  //     if(isSubscribed) fetchData();
-  //     return () => isSubscribed = false
-  // }, []);
-  // if(animating) return Spinner;
-
+  useEffect(() => {
+      let isSubscribed = true;
+      const fetchData = async () => {
+        try {
+          const getReviews = await getData(`${apiKey}/id=${id}`);
+          const relatedServices = await getData(`${apiKey}/id=${id}`)
+          setReviews(getReviews.reviews);
+          setSimilarServices(relatedServices);
+          setAnimating(false)
+        } catch (err) {
+          console.log(err);
+          setAnimating(false);
+        }
+      }
+      if(isSubscribed) fetchData();
+      return () => isSubscribed = false
+  }, []);
+  // if(animating) return <NetworkError />;
   return (
     <Container>
       <ScrollView alwaysBounceVertical={true}>
@@ -124,18 +124,22 @@ const Service = ({navigation, route: { params: { service } }}) => {
             </View>
           </View>
         </Section>
-        <View style={[styles.bg_white]}>
+        <View style={[styles.bg_white, styles.marginBottom_md]}>
           <Section>
             <Text numberOfLines={1} style={[styles.font_md, styles.fontWeight_bold, styles.paddingVertical_sm, styles.slimBorderBottom, styles.marginBottom_sm]}>Description</Text>
             <Text numberOfLines={10} style={[]}>{description}</Text>
           </Section>
         </View>
-        <Section>
-          <DisplayReviews reviews={reviews} />
-        </Section>
-        <Section>
-          <SimilarService services={services} category={subCategory} navigation={navigation} />
-        </Section>
+        {animating ? Spinner : (
+          <View>
+            <Section>
+              <DisplayReviews reviews={reviews} />
+            </Section>
+            <Section>
+              <SimilarService services={services} category={subCategory} navigation={navigation} />
+            </Section>
+          </View>
+        )}
       </ScrollView>
     </Container>
   )

@@ -5,7 +5,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 const AuthStack = createStackNavigator();
 
-const AuthScreens = () => {
+const AuthScreens = ({navigation, isValid, params}) => {
     return (
         <AuthStack.Navigator initialRouteName="Login">
             <AuthStack.Screen name="Login" component={Login}/>
@@ -15,4 +15,5 @@ const AuthScreens = () => {
     )
 }
 
-export default AuthScreens;
+export { Login, SignUp, ConfirmEmail };
+

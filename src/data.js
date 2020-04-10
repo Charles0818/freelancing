@@ -199,18 +199,6 @@ export const RecommendedServices = [
   {
     category: 'Fashion',
     services
-  },
-  {
-    category: 'Food',
-    services
-  },
-  {
-    category: 'Development',
-    services
-  },
-  {
-    category: 'Blockchain',
-    services
   }
 ]
 

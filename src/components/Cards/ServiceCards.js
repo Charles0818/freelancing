@@ -1,26 +1,30 @@
 import React from 'react';
 import { View, Text, ImageBackground, Dimensions, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { helpers } from '../helpers';
 import { styles } from '../styles';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { ScaleToSize } from '../Animations/index';
-const { Contexts: { Profile: { CheckIfWishListed, useProfileDispatch }, actions } } = helpers;
-const { profile: { wishlist: { toggle } } } = actions;
-export const ServiceCard = ({service, navigation}) => {
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+const { serviceHelpers: { useToggleWishList }, Store: { actions: { wishlistActions } } } = helpers;
+const { addToWishlist, removeFromWishlist } = wishlistActions;
+const ServiceCard = (props) => {
+  const { service, navigation, removeFromWishlist, addToWishlist } = props;
   const { id, name, price, media } = service;
+  const { toggleWishlist, isWishlisted } = useToggleWishList({ removeFromWishlist, addToWishlist, service })
   const thumbnail = media.filter(el => el.type === 'image')[0].uri;
-  const isWishListed = CheckIfWishListed(id);
-  const { dispatch } = useProfileDispatch();
+  console.log('hey');
   return (
-    <View onPress={() => navigation.navigate("Service", { service })}>
+    // <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple("#a0a0a0", true)} onPress={() => navigation.navigate("Service", { service })}>
     <ScaleToSize
       style={[cardStyle.container, styles.boxShadow_sm, styles.marginRight_sm, styles.marginBottom_sm]}>
       <ImageBackground source={{uri: thumbnail}} resizeMode="cover"
         style={[cardStyle.thumbnail]} loadingIndicatorSource={<ActivityIndicator animating={true} size={30} color="#ff680a" />}>
         <TouchableOpacity activeOpacity={0.8}
           style={[cardStyle.wish, styles.flexCenter, styles.position_absolute, styles.bg_darkOpacity]}
-          onPress={() => dispatch({type: toggle, payload: { wish: service } })}>
-          {isWishListed ? (
+          onPress={toggleWishlist}>
+          {isWishlisted ? (
              <FontAwesomeIcon icon="heart"
              style={{...styles.font_lg, ...styles.color_danger}}
            /> 
@@ -42,7 +46,7 @@ export const ServiceCard = ({service, navigation}) => {
         </View>
       </View>
     </ScaleToSize>
-    </View>
+    // </TouchableNativeFeedback>
   )
 }
 
@@ -71,4 +75,9 @@ const cardStyle = StyleSheet.create({
     width: '100%',
     maxHeight: 100,
   }
-})
+});
+
+const mapDispatchToProps = dispatch => 
+  bindActionCreators({ removeFromWishlist, addToWishlist }, dispatch);
+
+  export default connect(null, mapDispatchToProps)(ServiceCard);
