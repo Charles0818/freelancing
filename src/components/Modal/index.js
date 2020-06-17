@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Modal, StyleSheet } from 'react-native';
 const CenteredModal = ({modalVisible, children: Children}) => {
   return (
@@ -43,7 +43,6 @@ const Confirmation = () => {
       </Modal>
     </View>
   )
-}
 }
 
 const DrawUpModal = ({visible, children: Children}) => {

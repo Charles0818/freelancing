@@ -1,15 +1,17 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest, spawn } from 'redux-saga/effects';
 import { wishlist } from '../actions/types';
 import { wishlistActions } from '../actions';
 const { ADD_WISH, ADD_WISH_REQUESTED, REMOVE_WISH, REMOVE_WISH_REQUESTED, INITIALIZE_WISHLIST } = wishlist;
 const { addToWishlist, removeFromWishlist } = wishlistActions;
 import { sendData, getData, deleteData, apiKey } from './ajax';
 
+const token = '574989897A948hfhvj'
 // ALl httpRequest functions
 const wishlistDBCalls = {
+
   addWish: async (data) => {
-    const response = await sendData(`${apiKey}`, data, token);
-    return response
+    // const response = await sendData(`${apiKey}/hello`, data, token);
+    return true
   },
   removeWish: async (id) => {
       const response = await deleteData(`${apiKey}/id=${id}`, token);
@@ -23,28 +25,38 @@ const wishlistDBCalls = {
 }
 
 // All generators*
-function* addWish(action) {
+function* addWish({ payload: { service } }) {
+  
   try {
-    yield put(addToWishlist(action.service))
-    const wish = yield call(wishlistDBCalls.addWish, action.service)
+    console.log('saga action', service);
+    
+    yield call(wishlistDBCalls.addWish, service);
+    yield put(addToWishlist(service))
   } catch (err) {
-    yield put(removeFromWishlist(action.service.id))
+    yield put(removeFromWishlist(service.id));
+    console.log('error found', err);
   }
 }
 
-function* removeWish(action) {
+function* removeWish({ payload: { service } }) {
+  console.log('remove wish', service)
   try {
-    yield put(removeFromWishlist(action.service.id))
-    const wish = yield call(wishlistDBCalls.removeWish, action.service.id)
+    yield put(removeFromWishlist(service.id))
+    yield call(wishlistDBCalls.removeWish, service.id)
   } catch (err) {
-    yield put(addToWishlist(action.service))
+    yield put(addToWishlist(service))
   }
 }
 
-export function* addWishRequest() {
+function* addWishRequest() {
   yield takeLatest(ADD_WISH_REQUESTED, addWish)
 }
 
-export function* addWishRequest() {
+function* removeWishRequest() {
   yield takeLatest(REMOVE_WISH_REQUESTED, removeWish)
+}
+
+export default function* wishlistSagas() {
+  yield spawn(addWishRequest)
+  yield spawn(removeWishRequest)
 }

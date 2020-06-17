@@ -24,20 +24,22 @@ const Payment = ({ payment }) => {
   const { message, messageColor, icon, iconBg } = checkStatus(status);
   return (
     <TouchableHighlight underlayColor={"#ccc"} onPress={() => setVisibility(true)} style={[]}>
-      <View style={[styles.row, styles.alignItems_center, styles.slimBorderBottom]}>
-        <View style={[styles.row, styles.alignItems_center]}>
-          <View style={[styles.flexCenter, styles.marginRight_sm, paymentStyle.statusIcon, iconBg]}>
-            <FontAwesomeIcon icon={icon} style={{...styles.font_lg}}/>
+      <View>
+        <View style={[styles.row, styles.alignItems_center, styles.slimBorderBottom]}>
+          <View style={[styles.row, styles.alignItems_center]}>
+            <View style={[styles.flexCenter, styles.marginRight_sm, paymentStyle.statusIcon, iconBg]}>
+              <FontAwesomeIcon icon={icon} style={{...styles.font_lg, ...styles.color_white}}/>
+            </View>
+            <View style={[]}>
+              <Text numberOfLines={1} style={[styles.font_sm, styles.fontWeight_700, styles.marginBottom_xsm]}>{orderId}</Text>
+              <Text numberOfLines={1} style={[styles.font_xsm, styles.fontWeight_700, styles.marginBottom_xsm, messageColor]}>{message}</Text>
+              <Text numberOfLines={1} style={[styles.font_xsm, styles.color_gray, styles.fontWeight_700, styles.marginBottom_xsm]}>{date}</Text>
+            </View>
           </View>
-          <View style={[]}>
-            <Text numberOfLines={1} style={[styles.font_sm, fontWeight_700, styles.marginBottom_xsm]}>{orderId}</Text>
-            <Text numberOfLines={1} style={[styles.font_xsm, fontWeight_600, styles.marginBottom_xsm, messageColor]}>{message}</Text>
-            <Text numberOfLines={1} style={[styles.font_xsm, styles.color_gray, fontWeight_600, styles.marginBottom_xsm]}>{date}</Text>
-          </View>
+          <Text style={[styles.fontWeight_700, styles.font_md, messageColor]}>$ {amount}</Text>
         </View>
-        <Text style={[styles.fontWeight_700, styles.font_md, messageColor]}>$ {amount}</Text>
-      </View>
-      {DrawupModal}
+        {DrawupModal}
+        </View>
     </TouchableHighlight>
   )
 }

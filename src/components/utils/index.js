@@ -1,2 +1,3 @@
 import ShareButton from './shareBtn';
-export { ShareButton };
+import * as customButtons from './customButtons';
+export { ShareButton, customButtons };

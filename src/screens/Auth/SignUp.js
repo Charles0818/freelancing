@@ -32,12 +32,24 @@ const SignUp = ({navigation}) => {
   <Container style={[styles.paddingTop_md, styles.paddingHorizontal_md]}>
     <ScrollView showsVerticalScrollIndicator={false}>
       <Section>
-        <FormInput label="First name" value={firstName} onChange={setFirstName} err={firstNameErr} placeholder="Your first name" />
-        <FormInput label="Last name" value={lastName} onChange={setLastName} err={lastNameErr} placeholder="Your last name (surname)" />
-        <FormInput label="Phone" value={phone} onChange={setPhone} err={phoneErr} placeholder="Your phone number" keyboardType="phone-pad" />
-        <FormInput label="Email" value={email} onChange={setEmail} err={emailErr} placeholder="Your email address" keyboardType="email-address" />
-        <FormInput label="Create password" value={password} onChange={setPassword} err={passwordErr} placeholder="Password" />
-        <FormInput label="Confirm password" value={password2} onChange={setPassword2} err={validatePassword} placeholder="Re-type password" />
+        <FormInput label="First name" value={firstName} onChange={setFirstName}
+          err={firstNameErr} placeholder="Your first name"
+        />
+        <FormInput label="Last name" value={lastName} onChange={setLastName}
+          err={lastNameErr} placeholder="Your last name (surname)"
+        />
+        <FormInput label="Phone" value={phone} onChange={setPhone}
+          err={phoneErr} placeholder="Your phone number" keyboardType="phone-pad"
+        />
+        <FormInput label="Email" value={email} onChange={setEmail}
+          err={emailErr} placeholder="Your email address" keyboardType="email-address"
+        />
+        <FormInput label="Create password" value={password} onChange={setPassword}
+          err={passwordErr} placeholder="Password"
+        />
+        <FormInput label="Confirm password" value={password2} onChange={setPassword2}
+          err={validatePassword} placeholder="Re-type password"
+        />
         <View style={[formStyles.buttonWrapper]}>
           <View style={{width: 300, opacity: !validateAllField ? 0.6: 1}}>
             <TouchableNativeFeedback disabled={!validateAllField} onPress={handleSignUp} background={TouchableNativeFeedback.Ripple('#a0a0a0', false)}>

@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Video from 'react-native-video';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Container, Section } from '../Container';
-import { ajax, Contexts } from '../../helpers/index';
+import { ajax, Contexts, serviceHelpers, Store } from '../../helpers/index';
 import { styles } from '../styles';
 import { Spinners, Carousels, utils, Cards, Review, useRating, DisplayReviews } from '../../components/index';
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 import { NetworkError } from '../ErrorScreens'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { services, reviews } from '../../data';
+const  { useToggleWishList } = serviceHelpers;
+const { actions: { wishlistActions: { removeFromWishlist, addToWishlist } } } = Store;
 const { getData, apiKey } = ajax;
 const { useSpinner  } = Spinners;
 const { ComponentCarousel } = Carousels;
@@ -16,18 +20,10 @@ const { ShareButton } = utils;
 const { ServiceCard } = Cards;
 const { Profile: { CheckIfWishListed, useProfileDispatch }, actions } = Contexts;
 
-// const media = [
-//   {
-//       type: 'image',
-//       uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg',
-//   },
-//   {
-//       type: 'video',
-//       uri: 'https://res.cloudinary.com/dx5lp5drd/image/upload/v1575836714/ipnl0svo2eib94hibzvr.jpg'
-//   }
-// ]
-const Service = ({navigation, route: { params: { service } }}) => {
+
+const Service = ({navigation, removeFromWishlist, addToWishlist, route: { params: { service } }}) => {
   const { id, name, price, media, subCategory, description, rating } = service;
+  const { toggleWishlist, isWishlisted } = useToggleWishList({ removeFromWishlist, addToWishlist, service })
   // const [reviews, setReviews] = useState([]);
   const [similarServices, setSimilarServices] = useState([]);
   const { animating, Spinner, setAnimating } = useSpinner(true);
@@ -86,8 +82,8 @@ const Service = ({navigation, route: { params: { service } }}) => {
               </View>
               <TouchableOpacity activeOpacity={0.8}
                 style={[serviceStyle.roundBtn, styles.position_absolute, styles.bg_darkOpacity]}
-                onPress={() => dispatch({type: toggle, payload: { wish: service } })}>
-                {isWishListed ? (
+                onPress={toggleWishlist}>
+                {isWishlisted ? (
                   <FontAwesomeIcon icon="heart"
                   style={{...styles.font_lg, ...styles.color_danger}}
                 /> 
@@ -181,4 +177,7 @@ const serviceStyle = StyleSheet.create({
   },
 })
 
-export default Service;
+const mapDispatchToProps = dispatch => 
+  bindActionCreators({ removeFromWishlist, addToWishlist }, dispatch);
+
+  export default connect(null, mapDispatchToProps)(Service);

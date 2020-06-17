@@ -1,29 +1,36 @@
 import { auth } from './types';
-// import AsyncStorage from '@react-native-community/async-storage';
-const { SIGN_IN, SIGNIN_FAILURE, SIGN_IN_SUCCESS, RESTORE_TOKEN, SIGN_OUT } = auth;
+const { SIGN_IN_REQUESTED, SIGNIN_FAILURE, SIGN_IN_SUCCESS, RESTORE_TOKEN_SUCCESS, RESTORE_TOKEN_REQUESTED, SIGN_OUT } = auth;
 
-export const signIn = (token) => {
+
+export const signInRequest = (data) => {
   return {
-    type: SIGN_IN,
+    type: SIGN_IN_REQUESTED,
+    payload: data
+  }
+}
+
+export const signInSuccess = (token) => {
+  return {
+    type: SIGN_IN_SUCCESS,
     payload: { token }
   }
 }
 
-export const signInSuccess = () => {
-  return {
-    type: SIGN_IN_SUCCESS
-  }
-}
-
-export const signOut = () => {
+export const signOutSuccess = () => {
   return {
     type: SIGN_OUT
   }
 }
 
-export const restoreToken = (token) => {
+export const restoreTokenSuccess = (token) => {
   return {
-    type: RESTORE_TOKEN,
+    type: RESTORE_TOKEN_SUCCESS,
     payload: { token },
+  }
+}
+
+export const restoreTokenRequest = () => {
+  return {
+    type: RESTORE_TOKEN_REQUESTED
   }
 }

@@ -1,3 +1,3 @@
-import { store, types, actions } from './redux/store/index';
+import { store, types, actions } from './redux/index';
 // im
 export { store, types, actions };

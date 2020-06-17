@@ -12,7 +12,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { Home, Account, Notifications, Activity, PaymentHistory, Services, Service, AuthScreens } from './screens/index';
 import { Navigations } from './components/index';
 import { Contexts, Store } from './helpers/index';
-import styles from './styles/main.style';
+import { getData } from './helpers/ajax';
 library.add(fab, fas, far);
 const { Profile: { ProfileProvider } } = Contexts;
 const Tab = createBottomTabNavigator();
@@ -76,6 +76,17 @@ const HomeTabScreen = () => {
   )
 }
 export default function App() {
+  React.useEffect(() => {
+    const get = async () => {
+      try {
+        const response = await getData('https://api.manageme.net/hrm/get-bank-list');
+        console.log('my response', response);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    get()
+  }, [])
   return (
     <Provider store={Store.store}>
       <ProfileProvider>

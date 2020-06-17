@@ -6,17 +6,16 @@ import { connect } from 'react-redux';
 import { helpers } from '../helpers';
 import { styles } from '../styles';
 import { ScaleToSize } from '../Animations/index';
-import { TouchableNativeFeedback } from 'react-native-gesture-handler';
 const { serviceHelpers: { useToggleWishList }, Store: { actions: { wishlistActions } } } = helpers;
-const { addToWishlist, removeFromWishlist } = wishlistActions;
+const { addToWishlistRequest, removeFromWishlistRequest } = wishlistActions;
 const ServiceCard = (props) => {
-  const { service, navigation, removeFromWishlist, addToWishlist } = props;
+  const { service, navigation, removeFromWishlistRequest, addToWishlistRequest } = props;
   const { id, name, price, media } = service;
-  const { toggleWishlist, isWishlisted } = useToggleWishList({ removeFromWishlist, addToWishlist, service })
+  const { toggleWishlist, isWishlisted } = useToggleWishList({ removeFromWishlistRequest, addToWishlistRequest, service })
   const thumbnail = media.filter(el => el.type === 'image')[0].uri;
-  console.log('hey');
+  // console.log('hey');
   return (
-    // <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple("#a0a0a0", true)} onPress={() => navigation.navigate("Service", { service })}>
+    <TouchableOpacity activeOpacity={.9} setOpacityTo={(6, 1)} onPress={() => navigation.navigate("Service", { service })}>
     <ScaleToSize
       style={[cardStyle.container, styles.boxShadow_sm, styles.marginRight_sm, styles.marginBottom_sm]}>
       <ImageBackground source={{uri: thumbnail}} resizeMode="cover"
@@ -46,7 +45,7 @@ const ServiceCard = (props) => {
         </View>
       </View>
     </ScaleToSize>
-    // </TouchableNativeFeedback>
+    </TouchableOpacity>
   )
 }
 
@@ -78,6 +77,6 @@ const cardStyle = StyleSheet.create({
 });
 
 const mapDispatchToProps = dispatch => 
-  bindActionCreators({ removeFromWishlist, addToWishlist }, dispatch);
+  bindActionCreators({ removeFromWishlistRequest, addToWishlistRequest }, dispatch);
 
   export default connect(null, mapDispatchToProps)(ServiceCard);

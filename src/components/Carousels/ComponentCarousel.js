@@ -23,11 +23,9 @@ const ComponentCarousel = ({ slides, autoSlide, duration, bullet, dimensions: { 
   const { updateIndex, index: selectedIndex, setIndex } = useComponentCarousel();
   const scrollRef = useRef();
   const slideWidth = useRef();
-  console.log(slides.length)
   const getSlideWidth = (event) => {
     const { width } = event.nativeEvent.layout;
     slideWidth.current = Math.round(width);
-    console.log(slideWidth.current)
   }
   useEffect(() => {
     if(autoSlide) {

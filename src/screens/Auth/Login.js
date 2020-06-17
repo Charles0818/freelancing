@@ -1,15 +1,19 @@
 import React from 'react';
-import { TextInput, View, Text, Button, StyleSheet, StatusBar, TouchableNativeFeedback } from 'react-native';
+import { TextInput, View, Text, Button, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { StackActions } from '@react-navigation/native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Container, Section } from '../Container';
-import { useFormInput } from '../../helpers/index';
+import { useFormInput, Store } from '../../helpers/index';
 import { Form } from '../../components';
 import { styles, colors } from '../styles';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Header from './header';
+
+const { actions: { authActions: { signInRequest } } } = Store;
 const { FormInput } = Form;
-const Login = ({navigation, route: { params }}) => {
+const Login = ({navigation, route: { params }, signInRequest}) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: ({ scene, previous, navigation }) => (
@@ -22,7 +26,6 @@ const Login = ({navigation, route: { params }}) => {
   const validateFields = emailIsValid && passIsValid
   return (
     <Container style={[styles.paddingTop_lg, styles.paddingHorizontal_md]}>
-      <StatusBar backgroundColor={colors.color1} />
       <Section style={[{flex: 1}]}>
         <FormInput label="Email" value={email} onChange={setEmail} err={emailErr} placeholder="Your email address" autoCompleteType="email" keyboardType="email-address" />
         <FormInput label="Password" value={password} onChange={setPassword} err={passwordErr} placeholder="Password" autoCompleteType="password" />
@@ -36,7 +39,7 @@ const Login = ({navigation, route: { params }}) => {
           </View>
         </View>
         <View style={[formStyles.buttonWrapper]}>
-        <LoginButton navigation={navigation} isValid={validateFields} params={params} />
+        <LoginButton navigation={navigation} isValid={validateFields} params={params} action={signInRequest} data={{email, password}} />
         </View>
       </Section>
 
@@ -44,10 +47,11 @@ const Login = ({navigation, route: { params }}) => {
   )
 }
 
-const LoginButton = ({navigation, isValid, params}) => {
-  const popAction = StackActions.pop(2);
+const LoginButton = ({navigation, isValid, params, action, data}) => {
+  const popAction = StackActions.pop(1);
   console.log(params);
-  const handleLogin = () => {
+  const handleLogin = () => { 
+    action(data);
     params.redirectedBack ? (
       navigation.dispatch(popAction)
     ) : null
@@ -72,4 +76,7 @@ const formStyles = StyleSheet.create({
   }
 })
 
-export default Login;
+const mapDispatchToProps = dispatch => 
+  bindActionCreators({ signInRequest }, dispatch);
+
+  export default connect(null, mapDispatchToProps)(Login);

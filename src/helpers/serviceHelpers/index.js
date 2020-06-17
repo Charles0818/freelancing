@@ -1,39 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigation } from "@react-navigation/core";
 import { store, actions } from '../store';
-
-const useToggleWishList = ({ removeFromWishlist, addToWishlist, service }) => {
-  const { wishlist } = store.getState();
-  console.log(wishlist);
+const { wishlistActions: { removeFromWishlistRequest, addToWishlistRequest } } = actions;
+const useToggleWishList = ({service}) => {
+  console.log('service', service)
+  const { wishlist, auth: { userToken, isLoggedIn }, auth } = store.getState();
   const inWishlist = wishlist.find(wish => wish.id === service.id);
-  const [isWishlisted, setIsWishlisted] = useState(inWishlist ? true : false)
+  const [isWishlisted, setIsWishlisted] = useState(inWishlist ? true : false);
   const navigation = useNavigation();
+  // useEffect(() => {
+  //   console.log(wishlist);
 
-  const isLoggedIn = false;
-  const token = '795899HFkjkghGcjzf';
-  const auth = isLoggedIn && token;
+  // }, [wishlist]);
+  console.log(auth)
+  const isAuth = isLoggedIn && userToken;
 
   const toggleWishlist = () => {
-    if(!auth) {
+    console.log('this is wishlist', inWishlist)
+    console.log(isAuth)
+    if(isAuth) {
       navigation.navigate("Login",  {
         redirectedBack: true,
       });
       return
     }
     
-    console.log(inWishlist);
     if(inWishlist) {
-      removeFromWishlist(service.id);
-      setIsWishlisted(false);
+      store.dispatch(removeFromWishlistRequest(service));
     } else {
-      addToWishlist(service);
-      setIsWishlisted(true);
+      store.dispatch(addToWishlistRequest(service));
     }
-  
+    setIsWishlisted(wishlist.find(wish => wish.id === service.id ? true : false))
   };
   return { toggleWishlist, isWishlisted };
 }
 
-// store.subscribe(useToggleWishList);
+store.subscribe(useToggleWishList);
 
 export { useToggleWishList }

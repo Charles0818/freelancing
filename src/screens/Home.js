@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, ScrollView, TextInput, TouchableNativeFeedback, StyleSheet } from 'react-native';
+import { View, Image, Text, ScrollView, TextInput, TouchableNativeFeedback, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Container, Section } from './Container';
-import { Spinners, Cards, Carousels } from '../components/index';
+import { Spinners, Cards, Carousels, utils } from '../components/index';
 import { serviceCategories, services, RecommendedServices as Proposed, promotionalServices} from '../data';
 import { styles } from './styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+const { customButtons: { Button } } = utils;
 const { ServiceCard, PromoCard } = Cards;
 const { useImagePreload } = Spinners;
 const { ComponentCarousel } = Carousels;
@@ -14,7 +14,8 @@ const Home = ({navigation}) => {
   const [recommendedServices, setRecommendedServices] = useState([]);
   useEffect(() => {
     setRecommendedServices(Proposed)
-  },[])
+  },[]);
+
   console.log(search);
   return (
     <Container>
@@ -28,12 +29,11 @@ const Home = ({navigation}) => {
             value={search}
           />
           <View style={[styles.position_absolute, styles.border_r_5, homeStyle.searchIcon]}>
-            <TouchableNativeFeedback
-              background={TouchableNativeFeedback.Ripple('#a0a0a', false)}>
+            <Button action={() => navigation.navigate("Services", { type: 'search', value: search })}>
               <View style={[styles.padding_md]}>
                 <FontAwesomeIcon icon="search" />
               </View>
-            </TouchableNativeFeedback>
+            </Button>
           </View>
         </View>
       </Section>
@@ -46,7 +46,7 @@ const Home = ({navigation}) => {
         <View style={[styles.boxShadow_sm]}>
           <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700, styles.marginBottom_md]}>Services</Text>
           <View style={[styles.row, styles.wrap, styles.slimBorderBottom]}>
-            {serviceCategories.map((service, key) => <Service key={key} service={service} />)}
+            {serviceCategories.map((service, key) => <Service key={key} service={service} navigate={navigation.navigate} />)}
             <View style={[styles.marginRight_md, styles.alignItems_center, styles.marginBottom_md]}>
               <View style={[homeStyle.serviceImage, styles.marginBottom_sm, styles.bg_whiteOpacity, styles.alignItems_center, styles.justifyContent_center]}>
                 <FontAwesomeIcon icon="ellipsis-h" 
@@ -71,7 +71,7 @@ const RecommendedServices = ({categories, navigation}) => {
     <Section style={[styles.bg_white, styles.paddingVertical_md]}>
       <View style={[styles.row, styles.justifyContent_between, styles.alignItems_center, styles.marginBottom_md]} >
         <Text numberOfLines={1} style={[styles.font_lg, styles.fontWeight_700]}>{category}</Text>
-        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services")}
+        <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate("Services", { type: 'category', value: category })}
           style={[styles.padding_md, styles.bg_color1Opacity, styles.border_r_5]}>
           <Text style={[styles.color1, styles.fontWeight_700]}>More</Text>
         </TouchableOpacity>
@@ -81,15 +81,17 @@ const RecommendedServices = ({categories, navigation}) => {
   )
 }
 
-const Service = ({service}) => {
+const Service = ({service, navigate}) => {
   const { name, image } = service;
   // const { setIsLoading, ImagePreLoad } = useImagePreload();
   return (
     <View style={[homeStyle.service, styles.alignItems_center, styles.marginBottom_md]}>
-      <View style={[]}>
-        <Image source={{uri: image}}
-        style={[homeStyle.serviceImage, styles.marginBottom_sm]}/>
-      </View>
+      <Button action={() => navigate("Services", { type: 'category', value: name })}>
+        <View style={[]}>
+          <Image source={{uri: image}}
+          style={[homeStyle.serviceImage, styles.marginBottom_sm]}/>
+        </View>
+      </Button>
       <Text numberOfLines={2}
       style={[styles.fontWeight_700, styles.capitalize, styles.font_sm]}>{name}</Text>
     </View>

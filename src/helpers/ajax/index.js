@@ -5,28 +5,30 @@ export const sendHttpRequest = async (method, url, data, authToken ) => {
             const response = await fetch(url, {
                 method:method,
                 headers: {
+                    'Accept': 'application/json',
                     'Authorization': authToken ? `Token ${authToken}` : ""
                 }
             })
             
-        console.log(`Token ${authToken}`)
+        // console.log(`Token ${authToken}`)
             if(response.status >= 400) {
-                console.log(response)
+                // console.log(response)
                 const err = await response.json()
                 throw err
             }
-            console.log(response)
+            // console.log(response)
             return await response.json()
         }
         const response =  await fetch(url, {
             method:method,
             body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': authToken ? `Token ${authToken}` : ""
             }
         });
-        console.log(response)
+        // console.log(response)
         if(response.status >= 400) {
             const err = await response.json();
             throw err
@@ -35,7 +37,7 @@ export const sendHttpRequest = async (method, url, data, authToken ) => {
     
 }
 
-const apiKey = 'https://medwavecare.com';
+const apiKey = 'https://teamworkbycharles.herokuapp.com/api/v1';
 
 const getData = async (url, authToken) =>  sendHttpRequest('GET', url, null, authToken);
 

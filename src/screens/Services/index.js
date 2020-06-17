@@ -4,13 +4,14 @@ import { Container, Section } from '../Container';
 import { services } from '../../data';
 import { Cards, Spinners } from '../../components';
 import { styles } from '../styles';
-import { useFormInput } from '../../helpers/index';
+import { useFormInput, ajax } from '../../helpers/index';
 import { useNavigation } from '@react-navigation/core';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const { getData, apiKey } = ajax;
 const { LandScapeServiceCard } = Cards;
 const { useSpinner } = Spinners;
-const Services = ({ navigation }) => {
+const Services = ({ navigation, route: { params } }) => {
   const { input, handleUserInput: setSearch, isValid } = useFormInput();
   const { animating, setAnimating, Spinner } = useSpinner(true);
   React.useLayoutEffect(() => {
@@ -25,8 +26,21 @@ const Services = ({ navigation }) => {
 
   useEffect(() => {
     let isSubscribed = true;
+    const getEndpoint = (params) => {
+      const { type, value } = params;
+      switch(type) {
+        case 'category':
+          return `${apiKey}/?category=${value}`
+        case 'search':
+          return `${apiKey}/services?search=${value}`
+        default:
+        throw Error('undefined endpoint')
+      }
+    }
+ 
     const getServices = async () => {
       try {
+        const response = await getData(getEndpoint(params));
         const timeout = await setTimeout(() => {
           setAnimating(false);
           console.log('it is finished')

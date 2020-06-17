@@ -5,7 +5,7 @@ export const wishlistReducer = (prevState = [], { type, payload }) => {
   switch(type) {
     case ADD_WISH:
     // AsyncStorage.se
-      return [payload, ...prevState ]
+      return [payload.service, ...prevState ]
     case REMOVE_WISH:
       const wishlist = prevState.filter(wish => wish.id !== payload.id)
       return wishlist
